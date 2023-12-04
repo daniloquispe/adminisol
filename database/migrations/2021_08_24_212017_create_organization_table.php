@@ -26,8 +26,14 @@ class CreateOrganizationTable extends Migration
 			$table->date('prospecting_at')->nullable();
             $table->timestamps();
 
-            $table->foreign('id_doc_type_id')->references('id')->on('id_doc_type')->cascadeOnUpdate();
-			$table->foreign('invoice_type_id')->references('id')->on('invoice_type')->cascadeOnUpdate();
+            $table->foreign('id_doc_type_id')
+				->references('id')
+				->on('id_doc_type')
+				->cascadeOnUpdate();
+			$table->foreign('invoice_type_id')
+				->references('id')
+				->on('invoice_type')
+				->cascadeOnUpdate();
         });
     }
 
