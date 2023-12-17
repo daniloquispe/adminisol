@@ -24,4 +24,21 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
+	/**
+	 * Report out-of-memory exceptions.
+	 *
+	 * BugSnag can increase the PHP memory limit when your app runs out of memory to ensure events can be delivered.
+	 * To do this, a “bootstrapper” class must be registered.
+	 *
+	 * @return array|\Bugsnag\BugsnagLaravel\OomBootstrapper[]|string[]
+	 * @link https://docs.bugsnag.com/platforms/php/laravel/ BugSnag documentation
+	 */
+	protected function bootstrappers()
+	{
+		return array_merge(
+			[\Bugsnag\BugsnagLaravel\OomBootstrapper::class],
+			parent::bootstrappers(),
+		);
+	}
 }
