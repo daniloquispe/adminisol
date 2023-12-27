@@ -69,14 +69,6 @@ class OrganizationResource extends Resource
 					->label('Prospecting since')
 					->date(),
             ])
-            ->filters([
-				Tables\Filters\Filter::make('is_client')
-					->label('Clients')
-					->query(fn(Builder $query) => $query->where('is_client', true)),
-				Tables\Filters\Filter::make('is_vendor')
-					->label('Vendors')
-					->query(fn(Builder $query) => $query->where('is_vendor', true)),
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
