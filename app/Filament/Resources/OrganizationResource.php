@@ -86,6 +86,10 @@ class OrganizationResource extends Resource
 				Tables\Columns\TextColumn::make('prospecting_at')
 					->label('Prospecting since')
 					->date(),
+				// Active?
+				Tables\Columns\IconColumn::make('is_enabled')
+					->boolean()
+					->label('Active?'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
