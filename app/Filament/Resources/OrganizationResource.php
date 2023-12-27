@@ -33,7 +33,9 @@ class OrganizationResource extends Resource
 							->required(),
 						Forms\Components\TextInput::make('legal_name'),
 						Forms\Components\Select::make('invoice_type_id')
-							->relationship('invoiceType', 'name'),
+							->relationship('invoiceType', 'name')
+							->searchable()
+							->preload(),
 						Forms\Components\Textarea::make('notes')
 							->autosize(),
 					]),
