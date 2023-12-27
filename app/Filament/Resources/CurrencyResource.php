@@ -45,6 +45,7 @@ class CurrencyResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+			->modifyQueryUsing(fn(Builder $query) => $query->orderBy('code'))
             ->columns([
 				Tables\Columns\TextColumn::make('code')->searchable()->sortable(),
 				Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
