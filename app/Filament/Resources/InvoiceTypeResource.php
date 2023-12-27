@@ -48,10 +48,17 @@ class InvoiceTypeResource extends Resource
     {
         return $table
             ->columns([
-				Tables\Columns\TextColumn::make('code'),
-				Tables\Columns\TextColumn::make('name')->weight(FontWeight::Bold),
-				Tables\Columns\IconColumn::make('has_tax')->boolean()->label('Tax?'),
-				Tables\Columns\IconColumn::make('is_active')->boolean()->label('Active?'),
+				Tables\Columns\TextColumn::make('code')
+					->searchable(),
+				Tables\Columns\TextColumn::make('name')
+					->weight(FontWeight::Bold)
+					->searchable(),
+				Tables\Columns\IconColumn::make('has_tax')
+					->boolean()
+					->label('Tax?'),
+				Tables\Columns\IconColumn::make('is_active')
+					->boolean()
+					->label('Active?'),
             ])
             ->filters([
                 //

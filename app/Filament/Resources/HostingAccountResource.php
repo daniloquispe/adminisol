@@ -88,9 +88,12 @@ class HostingAccountResource extends Resource
         return $table
             ->columns([
 				Tables\Columns\TextColumn::make('mainDomain.name')
-					->weight(FontWeight::Bold),
-				Tables\Columns\TextColumn::make('client.name'),
-				Tables\Columns\TextColumn::make('plan.name'),
+					->weight(FontWeight::Bold)
+					->searchable(),
+				Tables\Columns\TextColumn::make('client.name')
+					->searchable(),
+				Tables\Columns\TextColumn::make('plan.name')
+					->searchable(),
 				Tables\Columns\TextColumn::make('status')
 					->badge()
 					->color(fn($state): string => match ($state)

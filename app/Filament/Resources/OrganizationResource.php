@@ -57,7 +57,8 @@ class OrganizationResource extends Resource
             ->columns([
 				Tables\Columns\TextColumn::make('name')
 					->description(fn(Organization $organization) => $organization->legal_name)
-					->weight(FontWeight::Bold),
+					->weight(FontWeight::Bold)
+					->searchable(),
 				Tables\Columns\TextColumn::make('as_client_at')
 					->label('Client since')
 					->date(),

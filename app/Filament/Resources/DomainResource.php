@@ -64,8 +64,10 @@ class DomainResource extends Resource
             ->columns([
 				Tables\Columns\TextColumn::make('name')
 					->label('Domain')
-					->weight(FontWeight::Bold),
-				Tables\Columns\TextColumn::make('client.name'),
+					->weight(FontWeight::Bold)
+					->searchable(),
+				Tables\Columns\TextColumn::make('client.name')
+					->searchable(),
 				Tables\Columns\TextColumn::make('status')
 					->badge()
 					->color(fn($state): string => match ($state)
