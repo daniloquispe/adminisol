@@ -87,7 +87,8 @@ class DomainResource extends Resource
 					->color(fn($state): string => match ($state)
 					{
 						DomainStatus::Active => 'success',
-						DomainStatus::Expired => 'danger',
+						DomainStatus::Expired => 'warning',
+						DomainStatus::Cancelled => 'danger',
 						default => 'gray'
 					})
 					->formatStateUsing(fn($state) => $state->name),
