@@ -25,12 +25,15 @@ class BankResource extends Resource
     {
         return $form
             ->schema([
+				// Name
 				Forms\Components\TextInput::make('name')
 					->required()
 					->unique(),
+				// SWIFT code
 				Forms\Components\TextInput::make('swift')
 					->label('SWIFT code')
 					->unique(),
+				// Enabled?
 				Forms\Components\Checkbox::make('is_enabled')
 					->default(true)
 					->label('Is active?')
@@ -40,10 +43,16 @@ class BankResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+			// Order by name
 			->modifyQueryUsing(fn(Builder $query) => $query->orderBy('name'))
             ->columns([
-				Tables\Columns\TextColumn::make('name')->sortable(),
-				Tables\Columns\TextColumn::make('swift')->sortable(),
+				// Name
+				Tables\Columns\TextColumn::make('name')
+					->sortable(),
+				// SWIFT code
+				Tables\Columns\TextColumn::make('swift')
+					->sortable(),
+				// Enabled?
 				Tables\Columns\IconColumn::make('is_enabled')
 					->boolean()
 					->label('Active?'),

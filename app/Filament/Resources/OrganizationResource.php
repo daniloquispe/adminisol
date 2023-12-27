@@ -24,29 +24,39 @@ class OrganizationResource extends Resource
     {
         return $form
             ->schema([
+				// Enabled?
 				Forms\Components\Toggle::make('is_enabled')
 					->default(true),
+				// Basic info
 				Forms\Components\Section::make('Basic info')
 					->columns(2)
 					->schema([
+						// Name
 						Forms\Components\TextInput::make('name')
 							->required(),
+						// Legal name
 						Forms\Components\TextInput::make('legal_name'),
+						// Invoice type
 						Forms\Components\Select::make('invoice_type_id')
 							->relationship('invoiceType', 'name')
 							->searchable()
 							->preload(),
+						// Notes
 						Forms\Components\Textarea::make('notes')
 							->autosize(),
 					]),
+				// Key dates
 				Forms\Components\Section::make('Key dates')
 					->description('identify this organization as a client, vendor or prospecting assigning a start date')
 					->columns(3)
 					->schema([
+						// Prospecting
 						Forms\Components\DatePicker::make('prospecting_at')
 							->maxDate(now()),
+						// As client
 						Forms\Components\DatePicker::make('as_client_at')
 							->maxDate(now()),
+						// As vendor
 						Forms\Components\DatePicker::make('as_vendor_at')
 							->maxDate(now()),
 					]),
@@ -56,18 +66,23 @@ class OrganizationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+			// Order by name
 			->modifyQueryUsing(fn(Builder $query) => $query->orderBy('name'))
             ->columns([
+				// Name
 				Tables\Columns\TextColumn::make('name')
 					->description(fn(Organization $organization) => $organization->legal_name)
 					->weight(FontWeight::Bold)
 					->searchable(),
+				// As-client date
 				Tables\Columns\TextColumn::make('as_client_at')
 					->label('Client since')
 					->date(),
+				// As-vendor date
 				Tables\Columns\TextColumn::make('as_vendor_at')
 					->label('Vendor since')
 					->date(),
+				// Prospecting date
 				Tables\Columns\TextColumn::make('prospecting_at')
 					->label('Prospecting since')
 					->date(),

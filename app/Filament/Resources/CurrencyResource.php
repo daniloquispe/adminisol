@@ -29,12 +29,14 @@ class CurrencyResource extends Resource
 				Forms\Components\Section::make()
 					->columns(2)
 					->schema([
+						// Code (ISO 4217)
 						Forms\Components\TextInput::make('code')
 							->required()
 							->unique()
 							->length(3)
 							->autocapitalize()
 							->helperText(new HtmlString('You can use <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217 standard codes</a> here')),
+						// Name
 						Forms\Components\TextInput::make('name')
 							->required()
 							->maxLength(25),
@@ -45,9 +47,12 @@ class CurrencyResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+			// Order by code
 			->modifyQueryUsing(fn(Builder $query) => $query->orderBy('code'))
             ->columns([
+				// Code
 				Tables\Columns\TextColumn::make('code')->searchable()->sortable(),
+				// Name
 				Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
             ])
             ->filters([

@@ -30,28 +30,37 @@ class DomainResource extends Resource
     {
         return $form
             ->schema([
+				// Basic info
 				Forms\Components\Section::make('Basic info')
 					->columns(2)
 					->schema([
+						// Domain name
 						Forms\Components\TextInput::make('name')
 							->label('Domain name')
 							->required(),
+						// Client
 						Forms\Components\Select::make('client_id')
 							->relationship('client', 'name')
 							->required(),
+						// Status
 						Forms\Components\Select::make('status')
 							->options(self::statuses())
 							->required(),
+						// Notes
 						Forms\Components\Textarea::make('Notes')
 							->autosize(),
 					]),
+				// Key dates
 				Forms\Components\Section::make('Key dates')
 					->columns(3)
 					->schema([
+						// Registration date
 						Forms\Components\DatePicker::make('registered_at')
 							->maxDate(now()),
+						// Expiration date
 						Forms\Components\DatePicker::make('expiring_at')
 							->maxDate(now()),
+						// Cancellation/termination date
 						Forms\Components\DatePicker::make('cancelled_at')
 							->maxDate(now()),
 					]),
@@ -61,14 +70,18 @@ class DomainResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+			// Order by name
 			->modifyQueryUsing(fn(Builder $query) => $query->orderBy('name'))
             ->columns([
+				// Domain name
 				Tables\Columns\TextColumn::make('name')
 					->label('Domain')
 					->weight(FontWeight::Bold)
 					->searchable(),
+				// Client
 				Tables\Columns\TextColumn::make('client.name')
 					->searchable(),
+				// Status
 				Tables\Columns\TextColumn::make('status')
 					->badge()
 					->color(fn($state): string => match ($state)
@@ -80,9 +93,11 @@ class DomainResource extends Resource
 					->formatStateUsing(fn($state) => $state->name),
             ])
             ->filters([
+				// Filter by client
 				Tables\Filters\SelectFilter::make('client_id')
 					->label('Client')
 					->relationship('client', 'name'),
+				// Filter by status
 				Tables\Filters\SelectFilter::make('status')
 					->options(self::statuses())
             ])

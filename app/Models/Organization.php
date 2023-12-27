@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * Model for a generic organization.
+ *
  * @property string $legal_name Legal (business) name
  * @method void clients() Scope for clients
  * @method void prospects() Scope for prospecting organizations (not clients nor vendors yet)
