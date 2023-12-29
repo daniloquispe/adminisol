@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Model for a generic organization.
  *
  * @property string $legal_name Legal (business) name
+ * @property-read IdentificationDocumentType|null identificationDocumentType
  * @method void clients() Scope for clients
  * @method void prospects() Scope for prospecting organizations (not clients nor vendors yet)
  * @method void vendors() Scope for vendors
@@ -21,6 +22,11 @@ class Organization extends Model
     use HasFactory;
 
 	protected $table = 'organization';
+
+	public function identificationDocumentType(): BelongsTo
+	{
+		return $this->belongsTo(IdentificationDocumentType::class, 'id_doc_type_id');
+	}
 
 	public function invoiceType(): BelongsTo
 	{

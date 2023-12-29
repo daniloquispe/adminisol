@@ -45,6 +45,18 @@ class OrganizationResource extends Resource
 						Forms\Components\Textarea::make('notes')
 							->autosize(),
 					]),
+				// Identification document
+				Forms\Components\Section::make('Identification document')
+					->columns()
+					->schema([
+						// Type
+						Forms\Components\Select::make('id_doc_type_id')
+							->relationship('identificationDocumentType', 'name')
+							->label('Type'),
+						// Number
+						Forms\Components\TextInput::make('id_doc_num')
+							->label('Number'),
+					]),
 				// Key dates
 				Forms\Components\Section::make('Key dates')
 					->description('identify this organization as a client, vendor or prospecting assigning a start date')

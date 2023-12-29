@@ -9,7 +9,5 @@ class IdentificationDocumentType extends Model
 {
     use HasFactory;
 
-	protected $table = 'identification_document_type';
-
-	protected $keyType = 'string';
+	protected $table = 'id_doc_type';
 }
