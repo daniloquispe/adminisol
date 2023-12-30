@@ -26,6 +26,7 @@ class OrganizationResource extends Resource
             ->schema([
 				// Enabled?
 				Forms\Components\Toggle::make('is_enabled')
+					->label('Active')
 					->default(true),
 				// Basic info
 				Forms\Components\Section::make('Basic info')
@@ -59,7 +60,7 @@ class OrganizationResource extends Resource
 					]),
 				// Key dates
 				Forms\Components\Section::make('Key dates')
-					->description('identify this organization as a client, vendor or prospecting assigning a start date')
+					->description('Identify this organization as a client, vendor or prospecting assigning a start date')
 					->columns(3)
 					->schema([
 						// Prospecting
