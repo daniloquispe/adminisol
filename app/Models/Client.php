@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @deprecated Use {@see Organization} model instead of this one
+ * @see Organization
+ */
 class Client extends Organization
 {
     use HasFactory;

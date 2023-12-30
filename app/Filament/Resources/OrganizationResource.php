@@ -30,7 +30,7 @@ class OrganizationResource extends Resource
 					->default(true),
 				// Basic info
 				Forms\Components\Section::make('Basic info')
-					->columns(2)
+					->columns()
 					->schema([
 						// Name
 						Forms\Components\TextInput::make('name')

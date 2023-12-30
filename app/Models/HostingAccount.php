@@ -10,11 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
+ * Model for a hosting account.
+ *
+ * @package AdminISOL\HostingAccount
+ * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
+ * @see HostingPlan, HostingPlanType
  * @property string $cpanel_custom_url
  * @property string $webmail_custom_url
- * @property-read string $cpanelUrl
+ * @property-read string $cpanelUrl Custom cPanel URL
  * @property-read Domain $mainDomain
- * @property-read string $webmailUrl
+ * @property-read string $webmailUrl Custom Webmail URL
  */
 class HostingAccount extends Model
 {

@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Model for a hosting plan.
+ *
+ * @package AdminISOL\HostingPlan
+ * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
+ * @see HostingPlanType, HostingAccount
+ */
 class HostingPlan extends Model
 {
     use HasFactory;

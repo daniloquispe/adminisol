@@ -11,6 +11,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Model for a generic organization.
  *
+ * An organization can be one or more of these:
+ *
+ * - Client
+ * - Vendor
+ * - Prospect (possible client)
+ *
+ * @package AdminISOL\Organization
+ * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @property string $legal_name Legal (business) name
  * @property-read IdentificationDocumentType|null identificationDocumentType
  * @method void clients() Scope for clients

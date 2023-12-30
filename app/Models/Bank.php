@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * Model for a bank.
+ *
+ * @package AdminISOL\Bank
+ * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @property string $swift SWIFT code
  */
 class Bank extends Model

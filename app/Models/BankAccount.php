@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Model for a bank account.
+ *
+ * @package AdminISOL\BankAccount
+ * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
+ */
 class BankAccount extends Model
 {
     use HasFactory;

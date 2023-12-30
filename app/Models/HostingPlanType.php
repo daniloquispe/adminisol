@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * Model for a hosting plan type.
+ *
+ * @package AdminISOL\HostingPlan
+ * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
+ * @see HostingPlan, HostingAccount
  * @property string $name Plan type name
  */
 class HostingPlanType extends Model

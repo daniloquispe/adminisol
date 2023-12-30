@@ -11,7 +11,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
- * @property string $email
+ * Model for a system user.
+ *
+ * @package AdminISOL\User
+ * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
+ * @property string $email User's e-mail (also acts as username)
  */
 class User extends Authenticatable implements FilamentUser
 {
