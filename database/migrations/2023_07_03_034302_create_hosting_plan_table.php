@@ -17,7 +17,7 @@ return new class extends Migration
 			$table->unsignedTinyInteger('type_id');
 			$table->string('name', 25);
 			$table->boolean('is_active')->default(true);
-			$table->unsignedTinyInteger('capacity');
+			$table->unsignedFloat('capacity', 5, 1);
 			$table->char('capacity_unit', 2);
 			$table->unsignedSmallInteger('transfer');
 			$table->char('transfer_unit', 4);

@@ -20,7 +20,7 @@ return new class extends Migration
 			$table->date('expiring_at')->nullable();
 			$table->date('cancelled_at')->nullable();
 			$table->boolean('is_external')->default(false);
-			$table->unsignedTinyInteger('status')->default(\App\Enums\DomainStatus::Active);
+			$table->tinyInteger('status')->default(\App\Enums\DomainStatus::Active);
 			$table->text('notes')->nullable();
 			$table->timestamps();
 

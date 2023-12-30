@@ -15,10 +15,10 @@ class CreateOrganizationTable extends Migration
 		{
             $table->integerIncrements('id');
             $table->string('name', 45);
-			$table->string('legal_name', 100)->unique();
+			$table->string('legal_name', 100)->nullable()->unique();
 			$table->unsignedTinyInteger('id_doc_type_id')->nullable();
 			$table->string('id_doc_num', 25)->nullable();
-			$table->unsignedTinyInteger('invoice_type_id');
+			$table->unsignedTinyInteger('invoice_type_id')->nullable();
 			$table->date('as_client_at')->nullable();
 			$table->date('as_vendor_at')->nullable();
 			$table->text('notes')->nullable();

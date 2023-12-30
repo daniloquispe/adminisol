@@ -22,7 +22,7 @@ return new class extends Migration
 			$table->date('terminated_at')->nullable();
 			$table->string('cpanel_custom_url', 255)->nullable();
 			$table->string('webmail_custom_url', 255)->nullable();
-			$table->unsignedTinyInteger('status')->default(\App\Enums\DomainStatus::Active);
+			$table->tinyInteger('status')->default(\App\Enums\DomainStatus::Active);
 			$table->text('notes')->nullable();
 			$table->timestamps();
 
