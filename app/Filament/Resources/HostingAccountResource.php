@@ -44,10 +44,16 @@ class HostingAccountResource extends Resource
 							->label('Main domain')
 							->helperText('If account has multiple domains, this domain will be used for cPanel and Webmail URLs')
 							->options(fn() => self::domains())
-							->required(),
+							->required()
+							->searchable()
+							->preload(),
+						// Client
 						Forms\Components\Select::make('client_id')
 							->relationship('client', 'name')
-							->required(),
+							->required()
+							->searchable()
+							->preload(),
+						// Hosting plan
 						Forms\Components\Select::make('plan_id')
 							->relationship('plan', 'name')
 							->required(),
