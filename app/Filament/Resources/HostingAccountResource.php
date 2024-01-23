@@ -37,9 +37,11 @@ class HostingAccountResource extends Resource
     {
         return $form
             ->schema([
+				// Basic info
 				Forms\Components\Section::make('Basic info')
 					->columns()
 					->schema([
+						// Main domain
 						Forms\Components\Select::make('main_domain_id')
 							->label('Main domain')
 							->helperText('If account has multiple domains, this domain will be used for cPanel and Webmail URLs')
@@ -57,32 +59,41 @@ class HostingAccountResource extends Resource
 						Forms\Components\Select::make('plan_id')
 							->relationship('plan', 'name')
 							->required(),
+						// Status
 						Forms\Components\Select::make('status')
 							->options(self::statuses())
 							->required(),
+						// Notes
 						Forms\Components\Textarea::make('notes')
 							->autosize(),
 					]),
+				// Custom URLs
 				Forms\Components\Section::make('Custom URLs')
 					->description('In case you want to use custom (unique) URLs for cPanel and/or Webmail')
 					->columns()
 					->schema([
+						// cPanel
 						Forms\Components\TextInput::make('cpanel_custom_url')
 							->url()
 							->label('cPanel')
 							->helperText('Default: https://www.your-domain.com:2083'),
+						// Webmail
 						Forms\Components\TextInput::make('webmail_custom_url')
 							->url()
 							->label('Webmail')
 							->helperText('Default: https://www.your-domain.com:2096'),
 					]),
+				// Key dates
 				Forms\Components\Section::make('Key dates')
 					->columns(3)
 					->schema([
+						// Registration
 						Forms\Components\DatePicker::make('registered_at')
 							->maxDate(now()),
+						// Expiration
 						Forms\Components\DatePicker::make('expiring_at')
 							->maxDate(now()),
+						// Termination
 						Forms\Components\DatePicker::make('terminated_at')
 							->maxDate(now()),
 					]),
@@ -93,13 +104,17 @@ class HostingAccountResource extends Resource
     {
         return $table
             ->columns([
+				// Main domain
 				Tables\Columns\TextColumn::make('mainDomain.name')
 					->weight(FontWeight::Bold)
 					->searchable(),
+				// Client
 				Tables\Columns\TextColumn::make('client.name')
 					->searchable(),
+				// Hosting plan
 				Tables\Columns\TextColumn::make('plan.name')
 					->searchable(),
+				// Status
 				Tables\Columns\TextColumn::make('status')
 					->badge()
 					->color(fn($state): string => match ($state)
@@ -112,28 +127,34 @@ class HostingAccountResource extends Resource
 					->formatStateUsing(fn($state) => $state->name),
             ])
             ->filters([
+				// Filter by date
 				Tables\Filters\SelectFilter::make('client_id')
 					->label('Client')
 					->relationship('client', 'name')
 					->searchable()
 					->preload(),
+				// Filter by hosting plan
 				Tables\Filters\SelectFilter::make('plan_id')
 					->label('Plan')
 					->relationship('plan', 'name'),
+				// Filter by status
 				Tables\Filters\SelectFilter::make('status')
 					->options(self::statuses())
             ])
             ->actions([
+				// Go to cPanel
 				Action::make('link_cpanel')
 					->icon('heroicon-m-link')
 					->link()
 					->label('cPanel')
 					->url(fn(HostingAccount $account) => $account->cpanelUrl, true),
+				// Go to Webmail
 				Action::make('link_webmail')
 					->icon('heroicon-m-link')
 					->link()
 					->label('Webmail')
 					->url(fn(HostingAccount $account) => $account->webmailUrl, true),
+				// Edit
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

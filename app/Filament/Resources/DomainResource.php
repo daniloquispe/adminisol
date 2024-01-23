@@ -36,7 +36,7 @@ class DomainResource extends Resource
 					->helperText('External domain are managed by 3rd-party domain vendors, not by us'),
 				// Basic info
 				Forms\Components\Section::make('Basic info')
-					->columns(2)
+					->columns()
 					->schema([
 						// Domain name
 						Forms\Components\TextInput::make('name')
