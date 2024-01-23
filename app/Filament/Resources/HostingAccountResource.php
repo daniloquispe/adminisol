@@ -25,7 +25,11 @@ class HostingAccountResource extends Resource
 
 	private static function domains(): array
 	{
-		return Domain::all(['id', 'name'])->pluck('name', 'id')->toArray();
+		return Domain::query()
+			->select(['id', 'name'])
+			->orderBy('name')
+			->pluck('name', 'id')
+			->toArray();
 	}
 
 	private static function statuses(): array
