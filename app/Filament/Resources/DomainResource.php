@@ -45,7 +45,9 @@ class DomainResource extends Resource
 						// Client
 						Forms\Components\Select::make('client_id')
 							->relationship('client', 'name')
-							->required(),
+							->required()
+							->searchable()
+							->preload(),
 						// Status
 						Forms\Components\Select::make('status')
 							->options(self::statuses())
