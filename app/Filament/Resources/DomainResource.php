@@ -30,6 +30,10 @@ class DomainResource extends Resource
     {
         return $form
             ->schema([
+				// External?
+				Forms\Components\Toggle::make('is_external')
+					->label('Is an external domain?')
+					->helperText('External domain are managed by 3rd-party domain vendors, not by us'),
 				// Basic info
 				Forms\Components\Section::make('Basic info')
 					->columns(2)
