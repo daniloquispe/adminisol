@@ -25,12 +25,15 @@ class BankAccountResource extends Resource
     {
         return $form
             ->schema([
+				// Bank
 				Forms\Components\Select::make('bank_id')
 					->relationship('bank', 'name')
 					->required(),
+				// Currency
 				Forms\Components\Select::make('currency_id')
 					->relationship('currency', 'name')
 					->required(),
+				// Account number
 				Forms\Components\TextInput::make('number')
 					->label('Account number')
 					->maxLength(20)
@@ -57,14 +60,19 @@ class BankAccountResource extends Resource
     {
         return $table
             ->columns([
+				// Bank name
 				Tables\Columns\TextColumn::make('bank.name'),
+				// Number
 				Tables\Columns\TextColumn::make('number'),
+				// Currency
 				Tables\Columns\TextColumn::make('currency.code'),
+				// Enabled?
 				Tables\Columns\IconColumn::make('is_active')
 					->boolean()
 					->label('Active?'),
             ])
             ->filters([
+				// Filter by currency
 				Tables\Filters\SelectFilter::make('currency')
 					->relationship('currency', 'code')
             ])

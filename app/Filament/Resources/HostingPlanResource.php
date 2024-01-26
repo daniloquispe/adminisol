@@ -26,24 +26,30 @@ class HostingPlanResource extends Resource
     {
         return $form
             ->schema([
+				// Enabled?
 				Forms\Components\Toggle::make('is_active')
 					->label('Is active?')
 					->default(true),
+				// Basic info
 				Forms\Components\Section::make('Basic info')
 					->columns()
 					->schema([
+						// Name
 						Forms\Components\TextInput::make('name')
 							->label('Plan name')
 							->maxLength(25)
 							->required(),
+						// Plan type
 						Forms\Components\Select::make('type_id')
 							->relationship('type', 'name')
 							->label('Plan type')
 							->required(),
 					]),
+				// Technical info
 				Forms\Components\Section::make('Technical info')
 					->columns()
 					->schema([
+						// Capacity
 						Forms\Components\Fieldset::make('Capacity')
 							->schema([
 								Forms\Components\TextInput::make('capacity')
@@ -56,6 +62,7 @@ class HostingPlanResource extends Resource
 									->options(['GB', 'MB'])
 									->required(),
 							]),
+						// Transfer speed
 						Forms\Components\Fieldset::make('Transfer speed')
 							->schema([
 								Forms\Components\TextInput::make('transfer')
@@ -69,15 +76,18 @@ class HostingPlanResource extends Resource
 									->required(),
 							]),
 					]),
+				// Price
 				Forms\Components\Section::make('Price')
 					->columns(2)
 					->schema([
+						// Per year (PEN)
 						Forms\Components\TextInput::make('price_year')
 							->label('Per year')
 							->required()
 							->numeric()
 							->default(0)
 							->prefix('PEN'),
+						// Per month (PEN)
 						Forms\Components\TextInput::make('price_month')
 							->label('Per month')
 							->required()
@@ -92,20 +102,26 @@ class HostingPlanResource extends Resource
     {
         return $table
             ->columns([
+				// Name
 				Tables\Columns\TextColumn::make('name')
 					->weight(FontWeight::Bold),
+				// Plan type
 				Tables\Columns\TextColumn::make('type.name'),
+				// Per-year price (PEN)
 				Tables\Columns\TextColumn::make('price_year')
 					->label('Price (year)')
 					->money('PEN'),
+				// Per-month price (PEN)
 				Tables\Columns\TextColumn::make('price_month')
 					->label('Price (month)')
 					->money('PEN'),
+				// Accounts
 				Tables\Columns\TextColumn::make('accounts_count')
 					->label('Accounts')
 					->counts('accounts'),
             ])
             ->filters([
+				// Filter by plan type
 				Tables\Filters\SelectFilter::make('type_id')
 					->relationship('type', 'name')
 					->label('Plan type'),

@@ -26,12 +26,14 @@ class IdentificationTypeResource extends Resource
     {
         return $form
             ->schema([
+				// Code (SUNAT)
 				Forms\Components\TextInput::make('code')
 					->helperText('Check SUNAT official tables')
 					->required()
 					->unique(ignoreRecord: true)
 					->length(1)
 					->autocapitalize(),
+				// Name
 				Forms\Components\TextInput::make('name')
 					->required()
 					->maxLength(25),
@@ -42,7 +44,9 @@ class IdentificationTypeResource extends Resource
     {
         return $table
             ->columns([
+				// Code
 				Tables\Columns\TextColumn::make('code'),
+				// Name
 				Tables\Columns\TextColumn::make('name')->weight(FontWeight::Bold),
             ])
             ->filters([

@@ -26,18 +26,22 @@ class InvoiceTypeResource extends Resource
     {
         return $form
             ->schema([
+				// Code (SUNAT)
 				Forms\Components\TextInput::make('code')
 					->required()
 					->unique(ignoreRecord: true)
 					->length(2)
 					->autocapitalize()
 					->helperText('Check SUNAT official tables'),
+				// Name
 				Forms\Components\TextInput::make('name')
 					->required()
 					->maxLength(25),
+				// Has tax?
 				Forms\Components\Checkbox::make('has_tax')
 					->default(true)
 					->label('Has tax?'),
+				// Enabled?
 				Forms\Components\Toggle::make('is_active')
 					->default(true)
 					->label('Is active?'),
@@ -48,14 +52,18 @@ class InvoiceTypeResource extends Resource
     {
         return $table
             ->columns([
+				// Code
 				Tables\Columns\TextColumn::make('code')
 					->searchable(),
+				// Name
 				Tables\Columns\TextColumn::make('name')
 					->weight(FontWeight::Bold)
 					->searchable(),
+				// Tax?
 				Tables\Columns\IconColumn::make('has_tax')
 					->boolean()
 					->label('Tax?'),
+				// Enabled?
 				Tables\Columns\IconColumn::make('is_active')
 					->boolean()
 					->label('Active?'),

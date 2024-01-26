@@ -26,15 +26,20 @@ class HostingPlanTypeResource extends Resource
     {
         return $form
             ->schema([
+				// Order number
 				Forms\Components\TextInput::make('order')
 					->numeric(),
+				// Name
 				Forms\Components\TextInput::make('name')
 					->required(),
+				// Description
 				Forms\Components\TextInput::make('description')
 					->required(),
+				// Base color
 				Forms\Components\ColorPicker::make('color')
 					->label('Base color')
 					->helperText('HTML hex format (#rrggbb)'),
+				// Enabled?
 				Forms\Components\Checkbox::make('is_active')
 					->default(true)
 					->label('Is active?')
@@ -46,13 +51,17 @@ class HostingPlanTypeResource extends Resource
     {
         return $table
             ->columns([
+				// Order number
 				Tables\Columns\TextColumn::make('order')
 					->sortable(),
+				// Name
 				Tables\Columns\TextColumn::make('name')
 					->weight(FontWeight::Bold)
 					->sortable(),
+				// Base color
 				Tables\Columns\ColorColumn::make('color')
 					->label('Base color'),
+				// Enabled?
 				Tables\Columns\IconColumn::make('is_active')
 					->boolean()
 					->label('Active?'),
