@@ -32,7 +32,7 @@ class CurrencyResource extends Resource
 						// Code (ISO 4217)
 						Forms\Components\TextInput::make('code')
 							->required()
-							->unique()
+							->unique(ignoreRecord: true)
 							->length(3)
 							->autocapitalize()
 							->helperText(new HtmlString('You can use <a href="https://es.wikipedia.org/wiki/ISO_4217" target="_blank">ISO 4217 standard codes</a> here')),

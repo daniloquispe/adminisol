@@ -28,7 +28,7 @@ class InvoiceTypeResource extends Resource
             ->schema([
 				Forms\Components\TextInput::make('code')
 					->required()
-					->unique()
+					->unique(ignoreRecord: true)
 					->length(2)
 					->autocapitalize()
 					->helperText('Check SUNAT official tables'),

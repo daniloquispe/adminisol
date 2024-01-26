@@ -29,7 +29,7 @@ class IdentificationTypeResource extends Resource
 				Forms\Components\TextInput::make('code')
 					->helperText('Check SUNAT official tables')
 					->required()
-					->unique()
+					->unique(ignoreRecord: true)
 					->length(1)
 					->autocapitalize(),
 				Forms\Components\TextInput::make('name')

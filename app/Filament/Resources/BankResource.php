@@ -28,11 +28,11 @@ class BankResource extends Resource
 				// Name
 				Forms\Components\TextInput::make('name')
 					->required()
-					->unique(),
+					->unique(ignoreRecord: true),
 				// SWIFT code
 				Forms\Components\TextInput::make('swift')
 					->label('SWIFT code')
-					->unique(),
+					->unique(ignoreRecord: true),
 				// Enabled?
 				Forms\Components\Checkbox::make('is_enabled')
 					->default(true)

@@ -35,15 +35,18 @@ class BankAccountResource extends Resource
 					->label('Account number')
 					->maxLength(20)
 					->required()
-					->unique(),
+					->unique(ignoreRecord: true),
+				// CCI
 				Forms\Components\TextInput::make('cci')
 					->label('CCI')
 					->length(25)
-					->unique(),
+					->unique(ignoreRecord: true),
+				// IBAN
 				Forms\Components\TextInput::make('iban')
 					->label('IBAN')
 					->length(34)
-					->unique(),
+					->unique(ignoreRecord: true),
+				// Enabled?
 				Forms\Components\Toggle::make('is_active')
 					->default(true)
 					->label('Is active?')
