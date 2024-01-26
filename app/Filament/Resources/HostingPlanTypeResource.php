@@ -30,7 +30,8 @@ class HostingPlanTypeResource extends Resource
 					->numeric(),
 				Forms\Components\TextInput::make('name')
 					->required(),
-				Forms\Components\TextInput::make('description'),
+				Forms\Components\TextInput::make('description')
+					->required(),
 				Forms\Components\ColorPicker::make('color')
 					->label('Base color')
 					->helperText('HTML hex format (#rrggbb)'),
