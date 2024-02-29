@@ -64,8 +64,7 @@ class DomainResource extends Resource
 						Forms\Components\DatePicker::make('registered_at')
 							->maxDate(now()),
 						// Expiration date
-						Forms\Components\DatePicker::make('expiring_at')
-							->maxDate(now()),
+						Forms\Components\DatePicker::make('expiring_at'),
 						// Cancellation/termination date
 						Forms\Components\DatePicker::make('cancelled_at')
 							->maxDate(now()),
