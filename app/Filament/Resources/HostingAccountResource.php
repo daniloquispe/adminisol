@@ -150,13 +150,15 @@ class HostingAccountResource extends Resource
 					->icon('heroicon-m-link')
 					->link()
 					->label('cPanel')
-					->url(fn(HostingAccount $account) => $account->cpanelUrl, true),
+					->url(fn(HostingAccount $account) => $account->cpanelUrl, true)
+					->disabled(fn(HostingAccount $account) => $account->status !== HostingAccountStatus::Active),
 				// Go to Webmail
 				Action::make('link_webmail')
 					->icon('heroicon-m-link')
 					->link()
 					->label('Webmail')
-					->url(fn(HostingAccount $account) => $account->webmailUrl, true),
+					->url(fn(HostingAccount $account) => $account->webmailUrl, true)
+					->disabled(fn(HostingAccount $account) => $account->status !== HostingAccountStatus::Active),
 				// Edit
                 Tables\Actions\EditAction::make(),
             ])

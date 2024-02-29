@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @see HostingPlan, HostingPlanType
  * @property string $cpanel_custom_url
+ * @property HostingAccountStatus $status
  * @property string $webmail_custom_url
  * @property-read string $cpanelUrl Custom cPanel URL
  * @property-read Domain $mainDomain
