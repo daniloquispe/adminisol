@@ -95,8 +95,7 @@ class HostingAccountResource extends Resource
 						Forms\Components\DatePicker::make('registered_at')
 							->maxDate(now()),
 						// Expiration
-						Forms\Components\DatePicker::make('expiring_at')
-							->maxDate(now()),
+						Forms\Components\DatePicker::make('expiring_at'),
 						// Termination
 						Forms\Components\DatePicker::make('terminated_at')
 							->maxDate(now()),
