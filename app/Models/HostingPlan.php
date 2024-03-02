@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @package AdminISOL\HostingPlan
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @see HostingPlanType, HostingAccount
+ * @property string $name
  */
 class HostingPlan extends Model
 {

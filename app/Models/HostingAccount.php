@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\HostingAccountStatus;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,11 +18,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @see HostingPlan, HostingPlanType
  * @property string $cpanel_custom_url
+ * @property Carbon $expiring_at Account's next expiration date
  * @property HostingAccountStatus $status
  * @property string $webmail_custom_url
  * @property-read string $cpanelUrl Custom cPanel URL
  * @property-read Domain $mainDomain
+ * @property-read HostingPlan $plan
  * @property-read string $webmailUrl Custom Webmail URL
+ * @method static Builder expiringIn30Days()
  */
 class HostingAccount extends Model
 {
@@ -71,5 +76,10 @@ class HostingAccount extends Model
 	public function webmailUrl(): Attribute
 	{
 		return Attribute::make(fn() => $this->webmail_custom_url ?? 'https://www.' . $this->mainDomain->name . ':2096');
+	}
+
+	public function scopeExpiringIn30Days(Builder $query): void
+	{
+		$query->where('expiring_at', '<=', Carbon::today()->addDays(30));
 	}
 }
