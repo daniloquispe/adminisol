@@ -110,13 +110,16 @@ class HostingAccountResource extends Resource
 				// Main domain
 				Tables\Columns\TextColumn::make('mainDomain.name')
 					->weight(FontWeight::Bold)
-					->searchable(),
+					->searchable()
+					->sortable(),
 				// Client
 				Tables\Columns\TextColumn::make('client.name')
-					->searchable(),
+					->searchable()
+					->sortable(),
 				// Hosting plan
 				Tables\Columns\TextColumn::make('plan.name')
-					->searchable(),
+					->searchable()
+					->sortable(),
 				// Status
 				Tables\Columns\TextColumn::make('status')
 					->badge()
@@ -127,7 +130,8 @@ class HostingAccountResource extends Resource
 						HostingAccountStatus::Terminated => 'danger',
 						default => 'gray'
 					})
-					->formatStateUsing(fn($state) => $state->name),
+					->formatStateUsing(fn($state) => $state->name)
+					->sortable(),
             ])
             ->filters([
 				// Filter by date
