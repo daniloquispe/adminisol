@@ -104,21 +104,26 @@ class HostingPlanResource extends Resource
             ->columns([
 				// Name
 				Tables\Columns\TextColumn::make('name')
-					->weight(FontWeight::Bold),
+					->weight(FontWeight::Bold)
+					->sortable(),
 				// Plan type
-				Tables\Columns\TextColumn::make('type.name'),
+				Tables\Columns\TextColumn::make('type.name')
+					->sortable(),
 				// Per-year price (PEN)
 				Tables\Columns\TextColumn::make('price_year')
 					->label('Price (year)')
-					->money('PEN'),
+					->money('PEN')
+					->sortable(),
 				// Per-month price (PEN)
 				Tables\Columns\TextColumn::make('price_month')
 					->label('Price (month)')
-					->money('PEN'),
+					->money('PEN')
+					->sortable(),
 				// Accounts
 				Tables\Columns\TextColumn::make('accounts_count')
 					->label('Accounts')
-					->counts('accounts'),
+					->counts('accounts')
+					->sortable(),
             ])
             ->filters([
 				// Filter by plan type
