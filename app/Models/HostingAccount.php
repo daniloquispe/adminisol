@@ -81,6 +81,7 @@ class HostingAccount extends Model
 	public function scopeExpiringIn30Days(Builder $query): void
 	{
 		$query->where('expiring_at', '<=', Carbon::today()->addDays(30))
-			->whereNull('terminated_at');
+			->whereNull('terminated_at')
+			->where('status', HostingAccountStatus::Active);
 	}
 }
