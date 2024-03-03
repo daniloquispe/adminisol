@@ -14,7 +14,9 @@ class ExpiringHostingAccounts extends BaseWidget
     {
         return $table
             ->query(
-                fn() => HostingAccount::expiringIn30Days()->with(['mainDomain', 'plan', 'client'])
+                fn() => HostingAccount::expiringIn30Days()
+					->with(['mainDomain', 'plan', 'client'])
+					->oldest('expiring_at')
             )
             ->columns([
                 Tables\Columns\TextColumn::make('mainDomain.name')

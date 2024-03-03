@@ -14,7 +14,7 @@ class ExpiringDomains extends BaseWidget
     {
         return $table
             ->query(
-                fn() => Domain::expiringIn30Days()
+                fn() => Domain::expiringIn30Days()->oldest('expiring_at')
             )
             ->columns([
                 Tables\Columns\TextColumn::make('name')
