@@ -71,6 +71,7 @@ class ContactResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+			->modifyQueryUsing(fn(Builder $query) => $query->orderBy('last_name')->orderBy('first_name'))
             ->columns([
 				// Last name
 				Tables\Columns\TextColumn::make('last_name')
