@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Enums\ContactStatus;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Model for a contact.
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @package AdminISOL\Contact
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @property string $job_title Contact's job title in organization
+ * @property-read Collection $organizations Contact jobs (as organizations collection)
  */
 class Contact extends Person
 {
@@ -19,7 +21,7 @@ class Contact extends Person
 
 	protected $table = 'contact';
 
-	protected $fillable = [
+/*	protected $fillable = [
 		'last_name',
 		'nickname',
 		'first_name',
@@ -31,7 +33,7 @@ class Contact extends Person
 		'is_owner',
 		'is_billing',
 		'avatar_filename',
-	];
+	];*/
 
 	protected $casts = [
 		'birthdate' => 'date',
@@ -40,8 +42,9 @@ class Contact extends Person
 		'status' => ContactStatus::class,
 	];
 
-	public function organization(): BelongsTo
+	public function organizations(): BelongsToMany
 	{
-		return $this->belongsTo(Organization::class);
+		return $this->belongsToMany(Organization::class, 'contact_organization', 'contact_id', 'organization_id')
+			->withPivot(['title', 'email', 'is_owner', 'is_billing']);
 	}
 }

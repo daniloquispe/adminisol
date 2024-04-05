@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -20,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @package AdminISOL\Organization
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @property string $legal_name Legal (business) name
+ * @property-read Collection $contacts Contacts list (as collection)
  * @property-read IdentificationDocumentType|null identificationDocumentType
  * @method void clients() Scope for clients
  * @method void prospects() Scope for prospecting organizations (not clients nor vendors yet)
@@ -46,9 +49,9 @@ class Organization extends Model
 		return $this->hasMany(OrganizationLocation::class);
 	}
 
-	public function contacts(): HasMany
+	public function contacts(): BelongsToMany
 	{
-		return $this->hasMany(Contact::class);
+		return $this->belongsToMany(Contact::class, 'contact_organization', 'organization_id', 'contact_id');
 	}
 
 	public function scopeClients(Builder $query): void

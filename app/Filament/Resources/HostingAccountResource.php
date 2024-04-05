@@ -149,20 +149,24 @@ class HostingAccountResource extends Resource
 					->options(self::statuses())
             ])
             ->actions([
-				// Go to cPanel
-				Action::make('link_cpanel')
-					->icon('heroicon-m-link')
+				// Links
+				Tables\Actions\ActionGroup::make([
+					// Go to cPanel
+					Action::make('link_cpanel')
+						->icon('heroicon-m-link')
+						->label('cPanel')
+						->url(fn(HostingAccount $account) => $account->cpanelUrl, true)
+						->disabled(fn(HostingAccount $account) => $account->status !== HostingAccountStatus::Active),
+					// Go to Webmail
+					Action::make('link_webmail')
+						->icon('heroicon-m-link')
+						->label('Webmail')
+						->url(fn(HostingAccount $account) => $account->webmailUrl, true)
+						->disabled(fn(HostingAccount $account) => $account->status !== HostingAccountStatus::Active),
+				])
 					->link()
-					->label('cPanel')
-					->url(fn(HostingAccount $account) => $account->cpanelUrl, true)
-					->disabled(fn(HostingAccount $account) => $account->status !== HostingAccountStatus::Active),
-				// Go to Webmail
-				Action::make('link_webmail')
-					->icon('heroicon-m-link')
-					->link()
-					->label('Webmail')
-					->url(fn(HostingAccount $account) => $account->webmailUrl, true)
-					->disabled(fn(HostingAccount $account) => $account->status !== HostingAccountStatus::Active),
+					->label('Links')
+					->icon('heroicon-m-link'),
 				// Edit
                 Tables\Actions\EditAction::make(),
             ])
