@@ -20,23 +20,28 @@ return new class extends Migration
         Schema::create('contact', function (Blueprint $table)
 		{
 			$table->id();
-			$table->unsignedInteger('organization_id')->nullable();
 			$table->string('last_name');
 			$table->string('first_name');
 			$table->string('nickname')->nullable();
-			$table->string('job_title')->nullable();
 			$table->date('birthdate')->nullable();
 			$table->tinyInteger('status');
-			$table->boolean('is_owner');
-			$table->boolean('is_billing');
 			$table->text('notes')->nullable();
 			$table->string('avatar_filename', 255)->nullable();
 			$table->timestamps();
-
-			$table->foreign('organization_id')
-				->references('id')->on('organization')
-				->cascadeOnUpdate()->nullOnDelete();
         });
+
+		Schema::create('contact_organization', function (Blueprint $table)
+		{
+			$table->unsignedBigInteger('contact_id');
+			$table->unsignedInteger('organization_id');
+			$table->string('title', 255)->nullable();
+			$table->string('email', 150)->nullable();
+			$table->boolean('is_owner');
+			$table->boolean('is_billing');
+
+			$table->foreign('contact_id')->references('id')->on('contact');
+			$table->foreign('organization_id')->references('id')->on('organization');
+		});
     }
 
     /**
@@ -44,6 +49,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+		Schema::dropIfExists('contact_organization');
 		Schema::dropIfExists('contact');
     }
 };

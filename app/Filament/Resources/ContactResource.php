@@ -49,22 +49,6 @@ class ContactResource extends Resource
 						Forms\Components\Textarea::make('notes')
 							->autosize(),
 					]),
-				// Business (organization) info
-				Forms\Components\Section::make('Business info')
-					->columns()
-					->schema([
-						// Organization
-						Forms\Components\Select::make('organization_id')
-							->relationship('organization', 'name')
-							->searchable()
-							->preload(),
-						// Job title
-						Forms\Components\TextInput::make('job_title'),
-						// Owner?
-						Forms\Components\Toggle::make('is_owner'),
-						// Billing contact
-						Forms\Components\Toggle::make('is_billing'),
-					]),
             ]);
     }
 
@@ -78,10 +62,6 @@ class ContactResource extends Resource
 					->searchable(),
 				// First name
 				Tables\Columns\TextColumn::make('first_name')
-					->searchable(),
-				// Organization (name and job title)
-				Tables\Columns\TextColumn::make('organization.name')
-					->description(fn(Contact $contact) => $contact->job_title)
 					->searchable(),
 				// Status
 				Tables\Columns\TextColumn::make('status')
@@ -98,7 +78,7 @@ class ContactResource extends Resource
 				// Filter by organization
 				Tables\Filters\SelectFilter::make('organization_id')
 					->label('Organization')
-					->relationship('organization', 'name')
+					->relationship('organizations', 'name')
 					->searchable()
 					->preload(),
 				// Filter by status
@@ -119,7 +99,7 @@ class ContactResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+			RelationManagers\OrganizationsRelationManager::class,
         ];
     }
 
