@@ -5,8 +5,9 @@ Information management system for [ISOL Perú](https://www.isolperu.com/).
 ## About current version
 
 This is version 2 of AdminISOL. Original (v1) version was made using Laravel 6 and Blade template engine. For version 2,
-code was reimplemented using Laravel 10 and [Filament 3](https://filamentphp.com/). Plus, some code conventions were
-added, such as English language for all code elements (source code, database elements, routes, documentation and so on).
+code was reimplemented using [Laravel 10](https://laravel.com/) and [Filament 3](https://filamentphp.com/). Plus, some code conventions were
+added, such as English language for all code elements (source code, database elements, routes, comments, documentation
+and so on).
 
 ## Main features
 
@@ -14,6 +15,7 @@ added, such as English language for all code elements (source code, database ele
 * Domains management
 * Hosting accounts management
 * Organizations management (clients and vendors)
+* Contacts manager
 * Maintenance tables:
   * Banks
   * Bank accounts
@@ -22,6 +24,14 @@ added, such as English language for all code elements (source code, database ele
   * Hosting plans
   * Identification document types
   * Invoice types
+
+## Planned features
+
+* Integration with [WebHost Manager (WHM)](https://www.cpanel.net/products/cpanel-whm-features/) and
+  [Enom](https://www.enom.com/)
+* E-mail alerts for hosting and domain due dates
+* Quotations management
+* Invoices management
 
 ## Installation
 

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $birthdate
  * @property string $first_name
  * @property string $last_name
+ * @property string $nickname
  * @property-read int $age
  * @property-read string $last_and_first_name
  * @property-read Carbon $next_birthday
