@@ -9,11 +9,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * Model for a contact.
+ * Model for an organization's contact.
+ *
+ * This model allows a contact to work in various organizations, by using the {@see $organizations} property.
  *
  * @package AdminISOL\Contact
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
- * @property string $job_title Contact's job title in organization
+ * @property string $avatar_filename
+ * @property-read  string $default_avatar_filename Default avatar filename (using {@link https://ui-avatars.com ui-avatars.com} service)
  * @property-read Collection $organizations Contact jobs (as organizations collection)
  */
 class Contact extends Person
