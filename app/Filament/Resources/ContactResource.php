@@ -9,6 +9,7 @@ use App\Models\Contact;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -39,8 +40,6 @@ class ContactResource extends Resource
 						// First name
 						Forms\Components\TextInput::make('first_name')
 							->required(),
-						// Birthdate
-						Forms\Components\DatePicker::make('birthdate'),
 						// Status
 						Forms\Components\Select::make('status')
 							->options(self::statuses())
@@ -48,6 +47,22 @@ class ContactResource extends Resource
 						// Notes
 						Forms\Components\Textarea::make('notes')
 							->autosize(),
+					]),
+				// Personal info
+				Forms\Components\Section::make('Personal info')
+					->columns(3)
+					->schema([
+						// Nickname
+						Forms\Components\TextInput::make('nickname'),
+						// Birthdate
+						Forms\Components\DatePicker::make('birthdate'),
+						// Avatar
+						Forms\Components\FileUpload::make('avatar_filename')
+							->label('Avatar')
+							->image()
+							->avatar()
+							->imageEditor()
+							->directory('avatars'),
 					]),
             ]);
     }
@@ -57,11 +72,20 @@ class ContactResource extends Resource
         return $table
 			->modifyQueryUsing(fn(Builder $query) => $query->orderBy('last_name')->orderBy('first_name'))
             ->columns([
-				// Last name
-				Tables\Columns\TextColumn::make('last_name')
-					->searchable(),
-				// First name
-				Tables\Columns\TextColumn::make('first_name')
+				// Avatar
+				Tables\Columns\ImageColumn::make('avatar_filename')
+					->label('Avatar')
+					->circular()
+					->extraImgAttributes(fn(Contact $contact) => ['alt' => "{$contact->first_name}'s avatar"]),
+				// Full name (last and first name)
+				Tables\Columns\TextColumn::make('last_and_first_name')
+					->label('Full name')
+					->description(fn(Contact $contact) => $contact->nickname)
+					->weight(FontWeight::Bold)
+					->searchable(['last_name', 'first_name', 'nickname']),
+				// Birthdate
+				Tables\Columns\TextColumn::make('birthdate')
+					->date()
 					->searchable(),
 				// Status
 				Tables\Columns\TextColumn::make('status')
