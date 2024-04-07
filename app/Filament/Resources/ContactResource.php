@@ -76,6 +76,7 @@ class ContactResource extends Resource
 				Tables\Columns\ImageColumn::make('avatar_filename')
 					->label('Avatar')
 					->circular()
+					->defaultImageUrl(fn(Contact $contact) => $contact->default_avatar_filename)
 					->extraImgAttributes(fn(Contact $contact) => ['alt' => "{$contact->first_name}'s avatar"]),
 				// Full name (last and first name)
 				Tables\Columns\TextColumn::make('last_and_first_name')

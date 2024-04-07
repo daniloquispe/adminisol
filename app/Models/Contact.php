@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ContactStatus;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -41,6 +42,11 @@ class Contact extends Person
 		'is_owner' => 'boolean',
 		'status' => ContactStatus::class,
 	];
+
+	public function defaultAvatarFilename(): Attribute
+	{
+		return Attribute::make(fn() => "https://ui-avatars.com/api/?background=random&name={$this->first_name} {$this->last_name}");
+	}
 
 	public function organizations(): BelongsToMany
 	{
