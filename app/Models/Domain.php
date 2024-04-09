@@ -3,21 +3,17 @@
 namespace App\Models;
 
 use App\Enums\DomainStatus;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Model for an Internet domain.
  *
- * @property Carbon $expiring_at Domain's next expiration date
+ * @package AdminISOL\Domain
+ * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @property string $name
- * @method static Builder expiringIn30Days()
  */
-class Domain extends Model
+class Domain extends RenewableService
 {
     use HasFactory;
 
@@ -45,15 +41,5 @@ class Domain extends Model
 	public function name(): Attribute
 	{
 		return Attribute::make(null, fn(string $name) => $this->attributes['name'] = strtolower($name));
-	}
-
-	public function client(): BelongsTo
-	{
-		return $this->belongsTo(Organization::class, 'client_id');
-	}
-
-	public function scopeExpiringIn30Days(Builder $query): void
-	{
-		$query->where('expiring_at', '<=', Carbon::today()->addDays(30));
 	}
 }
