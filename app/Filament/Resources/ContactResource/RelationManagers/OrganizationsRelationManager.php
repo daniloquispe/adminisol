@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\ContactResource\RelationManagers;
 
 use App\Filament\Resources\OrganizationResource;
-use App\Models\Organization;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -67,14 +66,12 @@ class OrganizationsRelationManager extends RelationManager
 							$action->getRecordSelect(),
 							// Job title
 							Forms\Components\TextInput::make('title')
-								->label('Job title')
-								->required(),
+								->label('Job title'),
 							// E-mail
 							Forms\Components\TextInput::make('email')
 								->label('Business e-mail')
 								->helperText('This e-mail can receive automated notifications (i.e. hosting or domain due dates)')
-								->email()
-								->required(),
+								->email(),
 							// Owner?
 							Forms\Components\Toggle::make('is_owner')
 								->label('Is owner contact?'),
