@@ -26,8 +26,5 @@ abstract class RenewableService extends Model
 		return $this->belongsTo(Organization::class, 'client_id');
 	}
 
-	public function scopeExpiringIn30Days(Builder $query): void
-	{
-		$query->where('expiring_at', '<=', Carbon::today()->addDays(30));
-	}
+	public abstract function scopeExpiringIn30Days(Builder $query): void;
 }

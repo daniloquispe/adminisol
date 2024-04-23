@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\DomainStatus;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -41,5 +43,12 @@ class Domain extends RenewableService
 	public function name(): Attribute
 	{
 		return Attribute::make(null, fn(string $name) => $this->attributes['name'] = strtolower($name));
+	}
+
+	public function scopeExpiringIn30Days(Builder $query): void
+	{
+		$query->where('expiring_at', '<=', Carbon::today()->addDays(30))
+			->whereNull('cancelled_at')
+			->where('status', DomainStatus::Active);
 	}
 }

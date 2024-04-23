@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\HostingAccountStatus;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -66,5 +68,12 @@ class HostingAccount extends RenewableService
 	public function webmailUrl(): Attribute
 	{
 		return Attribute::make(fn() => $this->webmail_custom_url ?? 'https://www.' . $this->mainDomain->name . ':2096');
+	}
+
+	public function scopeExpiringIn30Days(Builder $query): void
+	{
+		$query->where('expiring_at', '<=', Carbon::today()->addDays(30))
+			->whereNull('terminated_at')
+			->where('status', HostingAccountStatus::Active);
 	}
 }
