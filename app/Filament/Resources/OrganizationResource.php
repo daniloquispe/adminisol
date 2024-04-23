@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrganizationResource\Pages;
 use App\Filament\Resources\OrganizationResource\RelationManagers;
+use App\Models\Contact;
 use App\Models\Organization;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -80,31 +81,26 @@ class OrganizationResource extends Resource
     {
         return $table
 			// Order by name
-			->modifyQueryUsing(fn(Builder $query) => $query->orderBy('name'))
+			->modifyQueryUsing(fn(Builder $query) => $query->with('activeContacts:first_name,last_name,avatar_filename')->orderBy('name'))
             ->columns([
 				// Name
 				Tables\Columns\TextColumn::make('name')
 					->description(fn(Organization $organization) => $organization->legal_name)
 					->weight(FontWeight::Bold)
 					->searchable(),
-				// As-client date
-				Tables\Columns\TextColumn::make('as_client_at')
-					->label('Client since')
-					->date(),
-				// As-vendor date
-				Tables\Columns\TextColumn::make('as_vendor_at')
-					->label('Vendor since')
-					->date(),
-				// Prospecting date
-				Tables\Columns\TextColumn::make('prospecting_at')
-					->label('Prospecting since')
-					->date(),
 				// Active?
 				Tables\Columns\IconColumn::make('is_enabled')
 					->boolean()
 					->label('Active?'),
+				// Contacts (as avatars list)
+				Tables\Columns\ImageColumn::make('activeContacts.avatar_filename')
+					->circular()
+					->stacked()
+					->defaultImageUrl(fn(Contact $contact) => $contact->default_avatar_filename)
+					->extraImgAttributes(fn(Organization $organization) => $organization->contacts()->count() ? [] : ['style' => 'display: none']),
             ])
             ->actions([
+				Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -117,7 +113,7 @@ class OrganizationResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+			RelationManagers\ContactsRelationManager::class,
         ];
     }
 
@@ -126,6 +122,7 @@ class OrganizationResource extends Resource
         return [
             'index' => Pages\ListOrganizations::route('/'),
             'create' => Pages\CreateOrganization::route('/create'),
+			'view' => Pages\ViewOrganization::route('/{record}'),
             'edit' => Pages\EditOrganization::route('/{record}/edit'),
         ];
     }

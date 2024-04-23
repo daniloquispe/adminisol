@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ContactStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @package AdminISOL\Organization
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @property string $legal_name Legal (business) name
+ * @property-read Collection $active_contacts Active contacts list (as collection)
  * @property-read Collection $contacts Contacts list (as collection)
  * @property-read IdentificationDocumentType|null identificationDocumentType
  * @method void clients() Scope for clients
@@ -51,7 +53,13 @@ class Organization extends Model
 
 	public function contacts(): BelongsToMany
 	{
-		return $this->belongsToMany(Contact::class, 'contact_organization', 'organization_id', 'contact_id');
+		return $this->belongsToMany(Contact::class, 'contact_organization', 'organization_id', 'contact_id')
+			->withPivot(['title', 'email', 'is_owner', 'is_billing']);
+	}
+
+	public function activeContacts(): BelongsToMany
+	{
+		return $this->contacts()->where('status', ContactStatus::Active);
 	}
 
 	public function scopeClients(Builder $query): void
