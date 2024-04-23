@@ -1,61 +1,64 @@
 <?php
 
-namespace App\Filament\Resources\ContactResource\RelationManagers;
+namespace App\Filament\Resources\OrganizationResource\RelationManagers;
 
-use App\Filament\Resources\OrganizationResource;
+use App\Filament\Resources\ContactResource;
+use App\Models\Contact;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class OrganizationsRelationManager extends RelationManager
+class ContactsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'organizations';
+    protected static string $relationship = 'contacts';
 
     public function form(Form $form): Form
     {
-        /*return $form
-            ->schema([
-				// Name
-                Forms\Components\TextInput::make('name')
-                    ->required()
-					->unique()
-                    ->maxLength(255),
-				// Legal name
-				Forms\Components\TextInput::make('legal_name')
-					->unique()
-					->maxLength(255),
-				// Enabled?
-				Forms\Components\Toggle::make('is_enabled')
-					->label('Enabled?'),
-            ]);*/
-		return OrganizationResource::form($form);
+		return ContactResource::form($form);
     }
 
     public function table(Table $table): Table
     {
         return $table
-			->description('List of organizations where this contact works')
-            ->recordTitleAttribute('name')
+			->description('List of contacts working on this organization')
+			->recordTitle(fn(Contact $contact) => $contact->last_and_first_name)
             ->columns([
-				Tables\Columns\TextColumn::make('title')
-					->label('Job title'),
-				Tables\Columns\TextColumn::make('name')
-					->label('Organization'),
+				// Avatar
+				Tables\Columns\ImageColumn::make('avatar_filename')
+					->label('Avatar')
+					->circular()
+					->defaultImageUrl(fn(Contact $contact) => $contact->default_avatar_filename)
+					->extraImgAttributes(fn(Contact $contact) => ['alt' => "{$contact->first_name}'s avatar"]),
+				// Full name and job title
+                Tables\Columns\TextColumn::make('last_and_first_name')
+					->label('Full name')
+					->description(fn(Contact $contact) => $contact->pivot->title)
+					->weight(FontWeight::Bold)
+					->sortable()
+					->searchable(),
+				// E-mail
 				Tables\Columns\TextColumn::make('email')
-					->label('E-mail'),
+					->label('E-mail')
+					->sortable()
+					->searchable(),
+				// Owner contact?
 				Tables\Columns\IconColumn::make('is_owner')
 					->boolean()
 					->label('Owner?'),
+				// Billing contact?
 				Tables\Columns\IconColumn::make('is_billing')
 					->boolean()
 					->label('Billing?'),
             ])
             ->filters([
-                //
+				// Filter by status
+				Tables\Filters\SelectFilter::make('status')
+					->options(ContactResource::statuses()),
             ])
             ->headerActions([
 				Tables\Actions\AttachAction::make()

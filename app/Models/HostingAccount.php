@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -18,16 +17,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @see HostingPlan, HostingPlanType
  * @property string $cpanel_custom_url
- * @property Carbon $expiring_at Account's next expiration date
  * @property HostingAccountStatus $status
  * @property string $webmail_custom_url
  * @property-read string $cpanelUrl Custom cPanel URL
  * @property-read Domain $mainDomain
  * @property-read HostingPlan $plan
  * @property-read string $webmailUrl Custom Webmail URL
- * @method static Builder expiringIn30Days()
  */
-class HostingAccount extends Model
+class HostingAccount extends RenewableService
 {
     use HasFactory;
 
@@ -52,11 +49,6 @@ class HostingAccount extends Model
 		'terminated_at' => 'date',
 		'status' => HostingAccountStatus::class,
 	];
-
-	public function client(): BelongsTo
-	{
-		return $this->belongsTo(Organization::class, 'client_id');
-	}
 
 	public function plan(): BelongsTo
 	{
