@@ -30,41 +30,57 @@ class ContactResource extends Resource
     {
         return $form
             ->schema([
-				// Basic info
-				Forms\Components\Section::make('Basic info')
-					->columns()
+				Forms\Components\Group::make([
+					// Basic info
+					Forms\Components\Section::make('Basic info')
+						->columns()
+						->schema([
+							// Last name
+							Forms\Components\TextInput::make('last_name')
+								->required(),
+							// First name
+							Forms\Components\TextInput::make('first_name')
+								->required(),
+							// Status
+							Forms\Components\Select::make('status')
+								->options(self::statuses())
+								->required(),
+							// Notes
+							Forms\Components\Textarea::make('notes')
+								->autosize(),
+						]),
+					// Personal info
+					Forms\Components\Section::make('Personal info')
+//						->columnSpan(2)
+						->columns()
+						->schema([
+							// Nickname
+							Forms\Components\TextInput::make('nickname'),
+							// Birthdate
+							Forms\Components\DatePicker::make('birthdate'),
+						]),
+				])
+				->columnSpan(3),
+				// Avatar
+				Forms\Components\Section::make('Avatar')
+					->columnSpan(1)
 					->schema([
-						// Last name
-						Forms\Components\TextInput::make('last_name')
-							->required(),
-						// First name
-						Forms\Components\TextInput::make('first_name')
-							->required(),
-						// Status
-						Forms\Components\Select::make('status')
-							->options(self::statuses())
-							->required(),
-						// Notes
-						Forms\Components\Textarea::make('notes')
-							->autosize(),
-					]),
-				// Personal info
-				Forms\Components\Section::make('Personal info')
-					->columns(3)
-					->schema([
-						// Nickname
-						Forms\Components\TextInput::make('nickname'),
-						// Birthdate
-						Forms\Components\DatePicker::make('birthdate'),
 						// Avatar
 						Forms\Components\FileUpload::make('avatar_filename')
-							->label('Avatar')
+							->label('Select or edit avatar')
 							->image()
 							->avatar()
 							->imageEditor()
 							->directory('avatars'),
 					]),
-            ]);
+
+
+            ])
+			->columns([
+				'default => 1',
+				'md' => 1,
+				'lg' => 4
+			]);
     }
 
     public static function table(Table $table): Table
