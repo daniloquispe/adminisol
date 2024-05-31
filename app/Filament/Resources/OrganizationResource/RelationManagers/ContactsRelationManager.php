@@ -17,9 +17,29 @@ class ContactsRelationManager extends RelationManager
 {
     protected static string $relationship = 'contacts';
 
+	private static function pivotFormSchema(): array
+	{
+		return [
+			// Job title
+			Forms\Components\TextInput::make('title')
+				->label('Job title'),
+			// E-mail
+			Forms\Components\TextInput::make('email')
+				->label('Business e-mail')
+				->helperText('This e-mail can receive automated notifications (i.e. hosting or domain due dates)')
+				->email(),
+			// Owner?
+			Forms\Components\Toggle::make('is_owner')
+				->label('Is owner contact?'),
+			// Billing contact
+			Forms\Components\Toggle::make('is_billing')
+				->label('Is billing contact?'),
+		];
+	}
+
     public function form(Form $form): Form
     {
-		return ContactResource::form($form);
+		return $form->schema(self::pivotFormSchema());
     }
 
     public function table(Table $table): Table
@@ -62,38 +82,15 @@ class ContactsRelationManager extends RelationManager
             ])
             ->headerActions([
 				Tables\Actions\AttachAction::make()
-					->form(function (Tables\Actions\AttachAction $action): array
-					{
-						return [
-							// Organization
-							$action->getRecordSelect(),
-							// Job title
-							Forms\Components\TextInput::make('title')
-								->label('Job title'),
-							// E-mail
-							Forms\Components\TextInput::make('email')
-								->label('Business e-mail')
-								->helperText('This e-mail can receive automated notifications (i.e. hosting or domain due dates)')
-								->email(),
-							// Owner?
-							Forms\Components\Toggle::make('is_owner')
-								->label('Is owner contact?'),
-							// Billing contact
-							Forms\Components\Toggle::make('is_billing')
-								->label('Is billing contact?'),
-						];
-					}),
-//                Tables\Actions\CreateAction::make(),
+					->form(fn(Tables\Actions\AttachAction $action) => array_merge([$action->getRecordSelect()], self::pivotFormSchema())),
             ])
             ->actions([
+				Tables\Actions\EditAction::make(),
 				Tables\Actions\DetachAction::make(),
-//                Tables\Actions\EditAction::make(),
-//                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
 					Tables\Actions\DetachBulkAction::make(),
-//                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
