@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Ubigeo
+Route::get('departments', [\App\Http\Controllers\Api\UbigeoController::class, 'departments']);
+Route::get('department/{id}', [\App\Http\Controllers\Api\UbigeoController::class, 'department']);
+Route::get('provinces/{departmentId}', [\App\Http\Controllers\Api\UbigeoController::class, 'provinces']);
+Route::get('province/{id}', [\App\Http\Controllers\Api\UbigeoController::class, 'province']);
+Route::get('districts/{provinceId}', [\App\Http\Controllers\Api\UbigeoController::class, 'districts']);
+Route::get('district/{id}', [\App\Http\Controllers\Api\UbigeoController::class, 'district']);

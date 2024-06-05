@@ -11,7 +11,9 @@ class Country extends Model
 
 	protected $connection = 'ubigeo';
 
-	protected $table = 'country';
+//	protected $table = 'countries';
+
+	protected $primaryKey = 'code_2';
 
 	protected $keyType = 'string';
 
