@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
 			->profile()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Sky,
             ])
 			->favicon(asset('favicon.png'))
 			->font('Source Sans')
