@@ -10,9 +10,9 @@ return [
     | Application Name
     |--------------------------------------------------------------------------
     |
-    | This value is the name of your application. This value is used when the
+    | This value is the name of your application, which will be used when the
     | framework needs to place the application's name in a notification or
-    | any other location as required by the application or its packages.
+    | other UI elements where an application name needs to be displayed.
     |
     */
 
@@ -51,13 +51,11 @@ return [
     |
     | This URL is used by the console to properly generate URLs when using
     | the Artisan command line tool. You should set this to the root of
-    | your application so that it is used when running Artisan tasks.
+    | the application so that it's available within Artisan commands.
     |
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
-    'asset_url' => env('ASSET_URL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,53 +76,37 @@ return [
     |--------------------------------------------------------------------------
     |
     | The application locale determines the default locale that will be used
-    | by the translation service provider. You are free to set this value
-    | to any of the locales which will be supported by the application.
+    | by Laravel's translation / localization methods. This option can be
+    | set to any locale for which you plan to have translation strings.
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('APP_LOCALE', 'en'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Application Fallback Locale
-    |--------------------------------------------------------------------------
-    |
-    | The fallback locale determines the locale to use when the current one
-    | is not available. You may change the value to correspond to any of
-    | the language folders that are provided through your application.
-    |
-    */
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-    'fallback_locale' => 'en',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Faker Locale
-    |--------------------------------------------------------------------------
-    |
-    | This locale will be used by the Faker PHP library when generating fake
-    | data for your database seeds. For example, this will be used to get
-    | localized telephone numbers, street address information and more.
-    |
-    */
-
-    'faker_locale' => 'en_US',
+    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |
-    | This key is used by the Illuminate encrypter service and should be set
-    | to a random, 32 character string, otherwise these encrypted strings
-    | will not be safe. Please do this before deploying an application!
+    | This key is utilized by Laravel's encryption services and should be set
+    | to a random, 32 character string to ensure that all encrypted values
+    | are secure. You should do this prior to deploying the application.
     |
     */
 
+    'cipher' => 'AES-256-CBC',
+
     'key' => env('APP_KEY'),
 
-    'cipher' => 'AES-256-CBC',
+    'previous_keys' => [
+        ...array_filter(
+            explode(',', env('APP_PREVIOUS_KEYS', ''))
+        ),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -140,51 +122,8 @@ return [
     */
 
     'maintenance' => [
-        'driver' => 'file',
-        // 'store' => 'redis',
+        'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
+        'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Autoloaded Service Providers
-    |--------------------------------------------------------------------------
-    |
-    | The service providers listed here will be automatically loaded on the
-    | request to your application. Feel free to add your own services to
-    | this array to grant expanded functionality to your applications.
-    |
-    */
-
-    'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
-         * Package Service Providers...
-         */
-		Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
-
-        /*
-         * Application Service Providers...
-         */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\Filament\AdminPanelProvider::class,
-        App\Providers\RouteServiceProvider::class,
-    ])->toArray(),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Class Aliases
-    |--------------------------------------------------------------------------
-    |
-    | This array of class aliases will be registered when this application
-    | is started. However, feel free to register as many as you wish as
-    | the aliases are "lazy" loaded so they don't hinder performance.
-    |
-    */
-
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
-    ])->toArray(),
 
 ];
