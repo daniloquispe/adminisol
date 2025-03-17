@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @property string $name
  */
-class Domain extends RenewableService
+class Domain extends Renewable
 {
     use HasFactory;
 

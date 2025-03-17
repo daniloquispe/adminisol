@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read HostingPlan $plan
  * @property-read string $webmailUrl Custom Webmail URL
  */
-class HostingAccount extends RenewableService
+class HostingAccount extends Renewable
 {
     use HasFactory;
 

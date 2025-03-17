@@ -16,19 +16,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * An organization can be one or more of these:
  *
- * - Client
+ * - Customer
  * - Vendor
- * - Prospect (possible client)
+ * - Prospect (possible customer)
  *
  * @package AdminISOL\Organization
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
+ * @property int $id Organization ID
  * @property string $legal_name Legal (business) name
  * @property-read Collection $active_contacts Active contacts list (as collection)
  * @property-read Collection $contacts Contacts list (as collection)
  * @property-read IdentificationDocumentType|null identificationDocumentType
- * @method void clients() Scope for clients
- * @method void prospects() Scope for prospecting organizations (not clients nor vendors yet)
- * @method void vendors() Scope for vendors
+ * @method static Builder customers() Scope for customers
+ * @method static Builder prospects() Scope for prospecting organizations (not customers nor vendors yet)
+ * @method static Builder vendors() Scope for vendors
  */
 class Organization extends Model
 {
@@ -67,6 +68,11 @@ class Organization extends Model
 		$query->whereNotNull('as_client_at');
 	}
 
+	public function scopeCustomers(Builder $query): void
+	{
+		$query->whereNotNull('as_client_at');
+	}
+
 	public function scopeVendors(Builder $query): void
 	{
 		$query->whereNotNull('as_vendor_at');
@@ -75,5 +81,15 @@ class Organization extends Model
 	public function scopeProspects(Builder $query): void
 	{
 		$query->whereNotNull('prospecting_at');
+	}
+
+	/**
+	 * Return this organization as a {@see Customer customer model}
+	 *
+	 * @see Customer
+	 */
+	public function asCustomer(): Customer
+	{
+		return new Customer($this->attributes);
 	}
 }

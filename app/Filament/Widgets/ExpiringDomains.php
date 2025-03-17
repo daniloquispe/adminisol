@@ -20,8 +20,8 @@ class ExpiringDomains extends BaseWidget
                 Tables\Columns\TextColumn::make('name')
 					->label('Domain')
 					->weight(FontWeight::Bold),
-				Tables\Columns\TextColumn::make('client.name')
-					->label('Client'),
+				Tables\Columns\TextColumn::make('customer.name')
+					->label('Customer'),
 				Tables\Columns\TextColumn::make('expiring_at')
 					->description(fn(Domain $domain) => $domain->expiring_at->diffForHumans())
 					->date(),
