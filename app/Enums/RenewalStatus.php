@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum RenewalStatus: int
+use Filament\Support\Contracts\HasLabel;
+
+enum RenewalStatus: int implements HasLabel
 {
 	case NotStarted = 0;
 
@@ -11,4 +13,9 @@ enum RenewalStatus: int
 	case Renewed = 2;
 
 	case RejectedByClient = -1;
+
+	public function getLabel(): ?string
+	{
+		return $this->name;
+	}
 }

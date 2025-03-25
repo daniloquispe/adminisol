@@ -32,18 +32,26 @@ class Domain extends Renewable
 		'notes',
 	];*/
 
-	protected $casts = [
-		'registered_at' => 'date',
-		'expiring_at' => 'date',
-		'cancelled_at' => 'date',
-		'is_external' => 'boolean',
-		'status' => DomainStatus::class,
-	];
+	protected function casts(): array
+	{
+		return [
+			'registered_at' => 'date',
+			'expiring_at' => 'date',
+			'cancelled_at' => 'date',
+			'is_external' => 'boolean',
+			'status' => DomainStatus::class,
+		];
+	}
 
 	public function name(): Attribute
 	{
-		return Attribute::make(null, fn(string $name) => $this->attributes['name'] = strtolower($name));
+		return Attribute::make(set: fn(string $name) => $this->attributes['name'] = strtolower($name));
 	}
+
+	/*public function renewals(): MorphMany
+	{
+		return $this->morphMany(Renewal::class, 'service');
+	}*/
 
 	public function scopeExpiringIn30Days(Builder $query): void
 	{

@@ -55,7 +55,7 @@ class HostingAccountResource extends Resource
 							->preload(),
 						// Client
 						Forms\Components\Select::make('client_id')
-							->relationship('client', 'name')
+							->relationship('customer', 'name')
 							->required()
 							->searchable()
 							->preload(),
@@ -113,7 +113,7 @@ class HostingAccountResource extends Resource
 					->searchable()
 					->sortable(),
 				// Client
-				Tables\Columns\TextColumn::make('client.name')
+				Tables\Columns\TextColumn::make('customer.name')
 					->searchable()
 					->sortable(),
 				// Hosting plan
@@ -134,10 +134,10 @@ class HostingAccountResource extends Resource
 					->sortable(),
             ])
             ->filters([
-				// Filter by date
+				// Filter by customer
 				Tables\Filters\SelectFilter::make('client_id')
-					->label('Client')
-					->relationship('client', 'name')
+					->label('Customer')
+					->relationship('customer', 'name')
 					->searchable()
 					->preload(),
 				// Filter by hosting plan

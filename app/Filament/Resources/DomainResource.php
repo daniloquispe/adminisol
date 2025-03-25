@@ -44,7 +44,7 @@ class DomainResource extends Resource
 							->required(),
 						// Client
 						Forms\Components\Select::make('client_id')
-							->relationship('client', 'name')
+							->relationship('customer', 'name')
 							->required()
 							->searchable()
 							->preload(),
@@ -83,8 +83,8 @@ class DomainResource extends Resource
 					->label('Domain')
 					->weight(FontWeight::Bold)
 					->searchable(),
-				// Client
-				Tables\Columns\TextColumn::make('client.name')
+				// Customer
+				Tables\Columns\TextColumn::make('customer.name')
 					->searchable(),
 				// Status
 				Tables\Columns\TextColumn::make('status')
@@ -99,10 +99,10 @@ class DomainResource extends Resource
 					->formatStateUsing(fn($state) => $state->name),
             ])
             ->filters([
-				// Filter by client
+				// Filter by customer
 				Tables\Filters\SelectFilter::make('client_id')
-					->label('Client')
-					->relationship('client', 'name'),
+					->label('Customer')
+					->relationship('customer', 'name'),
 				// Filter by status
 				Tables\Filters\SelectFilter::make('status')
 					->options(self::statuses())

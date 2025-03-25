@@ -50,6 +50,13 @@ class HostingAccount extends Renewable
 		'status' => HostingAccountStatus::class,
 	];
 
+	public function name(): Attribute
+	{
+		$this->loadMissing('mainDomain:id,name');
+
+		return Attribute::make(fn() => $this->mainDomain->name);
+	}
+
 	public function plan(): BelongsTo
 	{
 		return $this->belongsTo(HostingPlan::class, 'plan_id');

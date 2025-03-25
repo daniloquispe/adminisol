@@ -16,7 +16,9 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  * @property Carbon|null $payment_verified_at
  * @property Carbon|null $renewed_at
  * @property int $service_id Renewable service ID
- * @property-read Organization $customer
+ * @property-read float $amount Total amount
+ * @property-read Customer $customer
+ * @property-read RenewalStatus $status Renewal process status
  */
 class Renewal extends Model
 {
@@ -28,7 +30,6 @@ class Renewal extends Model
 			'payment_verified_at' => 'date',
 			'renewed_at' => 'date',
 			'invoice_sent_at' => 'date',
-			'status' => RenewalStatus::class,
 		];
 	}
 
@@ -44,7 +45,7 @@ class Renewal extends Model
 
 	public function customer(): BelongsTo
 	{
-		return $this->belongsTo(Organization::class, 'customer_id');
+		return $this->belongsTo(Customer::class);
 	}
 
 	public function status(): Attribute
@@ -61,6 +62,14 @@ class Renewal extends Model
 				return RenewalStatus::NotificationSent;*/
 
 			return RenewalStatus::NotStarted;
+		});
+	}
+
+	public function amount(): Attribute
+	{
+		return Attribute::make(function ()
+		{
+			return $this->hostingAccounts()->sum('amount') + $this->domains()->sum('amount');
 		});
 	}
 }
