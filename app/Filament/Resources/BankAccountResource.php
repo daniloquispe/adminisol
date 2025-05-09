@@ -67,8 +67,7 @@ class BankAccountResource extends Resource
 				// Currency
 				Tables\Columns\TextColumn::make('currency.code'),
 				// Enabled?
-				Tables\Columns\IconColumn::make('is_active')
-					->boolean()
+				Tables\Columns\ToggleColumn::make('is_active')
 					->label('Active?'),
             ])
             ->filters([
