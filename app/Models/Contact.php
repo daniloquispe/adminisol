@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @package AdminISOL\Contact
  * @author Danilo Quispe Lucana <dql@daniloquispe.dev>
  * @property string $avatar_filename
- * @property-read  string $default_avatar_filename Default avatar filename (using {@link https://ui-avatars.com ui-avatars.com} service)
- * @property-read Collection $organizations Contact jobs (as organizations collection)
+ * @property-read string $default_avatar_filename Default avatar filename (using {@link https://ui-avatars.com ui-avatars.com} service)
+ * @property-read Collection $organizations Contact jobs (as a collection of organizations)
  */
 class Contact extends Person
 {
@@ -39,12 +39,15 @@ class Contact extends Person
 		'avatar_filename',
 	];*/
 
-	protected $casts = [
-		'birthdate' => 'date',
-		'is_billing' => 'boolean',
-		'is_owner' => 'boolean',
-		'status' => ContactStatus::class,
-	];
+	protected function casts(): array
+	{
+		return [
+			'birthdate' => 'date',
+			'is_billing' => 'boolean',
+			'is_owner' => 'boolean',
+			'status' => ContactStatus::class,
+		];
+	}
 
 	public function defaultAvatarFilename(): Attribute
 	{

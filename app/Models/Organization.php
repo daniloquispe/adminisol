@@ -63,6 +63,11 @@ class Organization extends Model
 		return $this->contacts()->where('status', ContactStatus::Active);
 	}
 
+	public function activeBillingContacts(): BelongsToMany
+	{
+		return $this->activeContacts()->wherePivot('is_billing', true);
+	}
+
 	public function scopeClients(Builder $query): void
 	{
 		$query->whereNotNull('as_client_at');

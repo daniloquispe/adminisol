@@ -8,9 +8,11 @@ enum RenewalStatus: int implements HasLabel
 {
 	case NotStarted = 0;
 
-	case InProgress = 1;
+	case EmailSent = 1;
 
-	case Renewed = 2;
+	case PaymentVerified = 2;
+
+	case Renewed = 9;
 
 	case RejectedByClient = -1;
 

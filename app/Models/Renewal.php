@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 /**
  * @property Carbon $due_at
  * @property string $notes
- * @property Carbon|null $notification_sent_at
+ * @property Carbon|null $notification_sent_at Last e-mail notification send date
  * @property Carbon|null $payment_verified_at
  * @property Carbon|null $renewed_at
  * @property int $service_id Renewable service ID
@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  */
 class Renewal extends Model
 {
+	protected $fillable = ['notification_sent_at'];
+
 	protected function casts(): array
 	{
 		return [
@@ -35,12 +37,14 @@ class Renewal extends Model
 
 	public function hostingAccounts(): MorphToMany
 	{
-		return $this->morphedByMany(HostingAccount::class, 'renewable');
+		return $this->morphedByMany(HostingAccount::class, 'renewable')
+			->withPivot('amount');
 	}
 
 	public function domains(): MorphToMany
 	{
-		return $this->morphedByMany(Domain::class, 'renewable');
+		return $this->morphedByMany(Domain::class, 'renewable')
+			->withPivot('amount');
 	}
 
 	public function customer(): BelongsTo
@@ -55,11 +59,11 @@ class Renewal extends Model
 			if ($this->renewed_at)
 				return RenewalStatus::Renewed;
 
-			/*if ($this->payment_verified_at)
+			if ($this->payment_verified_at)
 				return RenewalStatus::PaymentVerified;
 
 			if ($this->notification_sent_at)
-				return RenewalStatus::NotificationSent;*/
+				return RenewalStatus::EmailSent;
 
 			return RenewalStatus::NotStarted;
 		});
@@ -71,5 +75,10 @@ class Renewal extends Model
 		{
 			return $this->hostingAccounts()->sum('amount') + $this->domains()->sum('amount');
 		});
+	}
+
+	public function isOverdue(): Attribute
+	{
+		return Attribute::make(fn(): bool => $this->due_at->isPast());
 	}
 }
