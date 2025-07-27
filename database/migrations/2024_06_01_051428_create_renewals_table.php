@@ -38,7 +38,7 @@ return new class extends Migration
 
 		Schema::create('renewables', function (Blueprint $table)
 		{
-			$table->foreignIdFor(\App\Models\Renewal::class)->constrained();
+			$table->foreignIdFor(\App\Models\Renewal::class)->constrained()->cascadeOnDelete();
 			$table->unsignedTinyInteger('renewable_id');
 			$table->string('renewable_type');
 			$table->unsignedInteger('amount');
